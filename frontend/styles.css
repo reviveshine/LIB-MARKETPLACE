@@ -168,6 +168,53 @@ body {
     font-size: 1.3rem;
 }
 
+/* Contact Section */
+.contact {
+    padding: 80px 0;
+    background-color: var(--primary-white);
+}
+
+.contact h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--primary-blue);
+}
+
+.contact > .container > p {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 1.1rem;
+    color: var(--dark-gray);
+}
+
+.contact-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-item {
+    text-align: center;
+    padding: 30px 20px;
+    border-radius: 10px;
+    background-color: var(--light-gray);
+    border-top: 4px solid var(--primary-red);
+}
+
+.contact-item h3 {
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.contact-item p {
+    color: var(--dark-gray);
+    font-weight: 500;
+}
+
 /* Footer */
 .footer {
     background-color: var(--primary-blue);
@@ -493,4 +540,58 @@ body {
         margin: 20px;
         padding: 30px 20px;
     }
+}
+
+/* Notification Styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    color: var(--primary-white);
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
+    max-width: 400px;
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideIn 0.3s forwards;
+}
+
+.notification-success {
+    background-color: #22C55E;
+}
+
+.notification-error {
+    background-color: var(--primary-red);
+}
+
+.notification-info {
+    background-color: var(--primary-blue);
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* User Info Styles */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+}
+
+.user-info span {
+    color: var(--primary-white);
+    font-weight: 500;
+}
+
+.user-info button {
+    font-size: 14px;
+    padding: 8px 15px;
 }

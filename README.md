@@ -1,6 +1,6 @@
 # LIB MARKETPLACE
 
-![LIB MARKETPLACE Logo](assets/logos/lib-marketplace-logo.png)
+![LIB MARKETPLACE Logo](assets/logos/libmarketplace-black.png)
 
 A modern, secure multi-vendor marketplace website featuring red, white, and blue branding with distinct dashboards for sellers and buyers.
 
@@ -14,8 +14,8 @@ A modern, secure multi-vendor marketplace website featuring red, white, and blue
 
 ## 📁 Project Structure
 
-- `frontend/` - React.js web application
-- `backend/` - Node.js API server
+- `frontend/` - HTML5, CSS3, JavaScript web application
+- `backend/` - Node.js API server with Express.js
 - `assets/` - Logos, images, and media files
 - `docs/` - Project documentation
 
@@ -23,9 +23,10 @@ A modern, secure multi-vendor marketplace website featuring red, white, and blue
 
 - ✅ Repository setup
 - ✅ Project structure created
-- ✅ Logo integration completed
+- ✅ Logo integration completed  
 - ✅ Frontend development (core pages completed)
 - ✅ Backend development (API foundation completed)
+- ✅ Frontend-Backend integration (authentication working)
 - ⏳ Database integration (planned)
 - ⏳ Advanced features (planned)
 
