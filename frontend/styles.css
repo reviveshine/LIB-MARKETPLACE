@@ -299,6 +299,79 @@ body {
     text-decoration: underline;
 }
 
+/* Buyer Verification Fields Styles */
+.buyer-verification-fields {
+    background-color: var(--light-gray);
+    border: 2px solid var(--primary-blue);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px 0;
+    animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.field-note {
+    color: #6B7280;
+    font-size: 12px;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+.goblelly-verification {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.goblelly-verification input {
+    flex: 1;
+}
+
+.btn-goblelly {
+    padding: 12px 16px;
+    background-color: var(--primary-red);
+    color: var(--primary-white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+}
+
+.btn-goblelly:hover {
+    background-color: #B91C1C;
+}
+
+.btn-goblelly:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Responsive design for buyer fields */
+@media (max-width: 768px) {
+    .goblelly-verification {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .btn-goblelly {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
 /* Marketplace Styles */
 .marketplace-header {
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-red) 100%);

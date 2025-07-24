@@ -67,6 +67,24 @@
                             </select>
                         </div>
                         
+                        <!-- Buyer Verification Fields (hidden by default) -->
+                        <div id="buyerFields" class="buyer-verification-fields" style="display: none;">
+                            <div class="form-group">
+                                <label for="phoneNumber">Phone Number *</label>
+                                <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+1 (555) 123-4567">
+                                <small class="field-note">Required for buyer verification and order notifications</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="goblelly">Goblelly Verification *</label>
+                                <div class="goblelly-verification">
+                                    <input type="text" id="goblelly" name="goblelly" placeholder="Enter Goblelly verification code" readonly>
+                                    <button type="button" id="startGoblelly" class="btn-goblelly">Start Verification</button>
+                                </div>
+                                <small class="field-note">Complete Goblelly verification to enable buying capabilities</small>
+                            </div>
+                        </div>
+                        
                         <div class="form-options">
                             <label class="checkbox-label">
                                 <input type="checkbox" name="terms" required>
@@ -90,5 +108,123 @@
             <p>&copy; 2025 LIB MARKETPLACE. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // Registration form functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const userTypeSelect = document.getElementById('userType');
+            const buyerFields = document.getElementById('buyerFields');
+            const phoneNumber = document.getElementById('phoneNumber');
+            const goblelly = document.getElementById('goblelly');
+            const startGoblellyBtn = document.getElementById('startGoblelly');
+            const form = document.querySelector('.auth-form');
+
+            // Toggle buyer fields based on user type selection
+            function toggleBuyerFields() {
+                const userType = userTypeSelect.value;
+                const showBuyerFields = userType === 'buyer' || userType === 'both';
+                
+                if (showBuyerFields) {
+                    buyerFields.style.display = 'block';
+                    phoneNumber.required = true;
+                    goblelly.required = true;
+                } else {
+                    buyerFields.style.display = 'none';
+                    phoneNumber.required = false;
+                    goblelly.required = false;
+                    phoneNumber.value = '';
+                    goblelly.value = '';
+                }
+            }
+
+            // Handle user type change
+            userTypeSelect.addEventListener('change', toggleBuyerFields);
+
+            // Phone number formatting
+            phoneNumber.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 10) {
+                    value = value.slice(0, 10);
+                    value = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6)}`;
+                } else if (value.length >= 6) {
+                    value = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6)}`;
+                } else if (value.length >= 3) {
+                    value = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+                }
+                e.target.value = value;
+            });
+
+            // Goblelly verification simulation
+            startGoblellyBtn.addEventListener('click', function() {
+                this.disabled = true;
+                this.textContent = 'Verifying...';
+                
+                // Simulate verification process
+                setTimeout(() => {
+                    const verificationCode = 'GB-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+                    goblelly.value = verificationCode;
+                    this.textContent = 'Verified ✓';
+                    this.style.backgroundColor = '#22c55e';
+                }, 2000);
+            });
+
+            // Form validation and submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(form);
+                const userData = Object.fromEntries(formData.entries());
+                
+                // Validate passwords match
+                if (userData.password !== userData.confirmPassword) {
+                    alert('Passwords do not match');
+                    return;
+                }
+                
+                // Validate buyer fields if required
+                const userType = userData.userType;
+                if (userType === 'buyer' || userType === 'both') {
+                    if (!userData.phoneNumber) {
+                        alert('Phone number is required for buyers');
+                        return;
+                    }
+                    if (!userData.goblelly) {
+                        alert('Goblelly verification is required for buyers');
+                        return;
+                    }
+                }
+
+                // Submit to API
+                registerUser(userData);
+            });
+
+            // API registration function
+            async function registerUser(userData) {
+                try {
+                    const response = await fetch('http://localhost:5000/api/auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(userData)
+                    });
+
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        alert('Registration successful! Welcome to LIB MARKETPLACE!');
+                        console.log('User registered:', result);
+                        // Redirect to login or dashboard
+                        window.location.href = 'login.html';
+                    } else {
+                        alert('Registration failed: ' + result.message);
+                    }
+                } catch (error) {
+                    alert('Registration failed: ' + error.message);
+                    console.error('Registration error:', error);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
