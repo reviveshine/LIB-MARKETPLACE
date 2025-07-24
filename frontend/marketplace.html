@@ -89,6 +89,17 @@
         const API_BASE = 'http://localhost:5000/api';
         let currentPage = 1;
         let currentFilters = {};
+        
+        // HTML escaping function to prevent XSS
+        function escapeHtml(unsafe) {
+            if (typeof unsafe !== 'string') return unsafe;
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
 
         // DOM elements
         const productsGrid = document.getElementById('products-grid');
@@ -229,18 +240,18 @@
             noProductsMessage.style.display = 'none';
             
             productsGrid.innerHTML = products.map(product => `
-                <div class="product-card" onclick="viewProduct('${product._id}')">
+                <div class="product-card" onclick="viewProduct('${escapeHtml(product._id)}')">
                     <div class="product-image">
-                        <img src="${product.images[0] || 'https://via.placeholder.com/300x300?text=No+Image'}" 
-                             alt="${product.name}" loading="lazy">
-                        <div class="product-category">${product.category}</div>
+                        <img src="${escapeHtml(product.images[0] || 'https://via.placeholder.com/300x300?text=No+Image')}" 
+                             alt="${escapeHtml(product.name)}" loading="lazy">
+                        <div class="product-category">${escapeHtml(product.category)}</div>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-name">${product.name}</h3>
-                        <p class="product-description">${product.description.substring(0, 80)}...</p>
+                        <h3 class="product-name">${escapeHtml(product.name)}</h3>
+                        <p class="product-description">${escapeHtml(product.description.substring(0, 80))}...</p>
                         <div class="product-price">$${product.price.toFixed(2)}</div>
                         <div class="product-seller">
-                            <span>Seller: ${product.sellerName}</span>
+                            <span>Seller: ${escapeHtml(product.sellerName)}</span>
                             <span class="product-stock">Stock: ${product.stock}</span>
                         </div>
                         <div class="product-stats">

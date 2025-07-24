@@ -213,6 +213,17 @@
         const API_BASE = 'http://localhost:5000/api';
         let currentUser = null;
         let userProducts = [];
+        
+        // HTML escaping function to prevent XSS
+        function escapeHtml(unsafe) {
+            if (typeof unsafe !== 'string') return unsafe;
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
 
         // Check authentication on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -327,21 +338,21 @@
             grid.innerHTML = products.map(product => `
                 <div class="seller-product-card">
                     <div class="product-image">
-                        <img src="${product.images[0] || 'https://via.placeholder.com/150x150?text=No+Image'}" 
-                             alt="${product.name}">
-                        <div class="product-status ${product.status}">${product.status}</div>
+                        <img src="${escapeHtml(product.images[0] || 'https://via.placeholder.com/150x150?text=No+Image')}" 
+                             alt="${escapeHtml(product.name)}">
+                        <div class="product-status ${escapeHtml(product.status)}">${escapeHtml(product.status)}</div>
                     </div>
                     <div class="product-info">
-                        <h4>${product.name}</h4>
-                        <p class="product-category">${product.category}</p>
+                        <h4>${escapeHtml(product.name)}</h4>
+                        <p class="product-category">${escapeHtml(product.category)}</p>
                         <div class="product-details">
                             <span class="price">$${product.price.toFixed(2)}</span>
                             <span class="stock">Stock: ${product.stock}</span>
                             <span class="views">👁️ ${product.views} views</span>
                         </div>
                         <div class="product-actions">
-                            <button class="btn-edit" onclick="editProduct('${product._id}')">Edit</button>
-                            <button class="btn-delete" onclick="deleteProduct('${product._id}')">Delete</button>
+                            <button class="btn-edit" onclick="editProduct('${escapeHtml(product._id)}')">Edit</button>
+                            <button class="btn-delete" onclick="deleteProduct('${escapeHtml(product._id)}')">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -496,14 +507,14 @@
 
             topProductsList.innerHTML = topProducts.map(product => `
                 <div class="top-product-item">
-                    <span class="product-name">${product.name}</span>
+                    <span class="product-name">${escapeHtml(product.name)}</span>
                     <span class="product-views">${product.views} views</span>
                 </div>
             `).join('');
 
             // Mock recent activity
             recentActivity.innerHTML = `
-                <div class="activity-item">Product "${userProducts[0]?.name || 'Sample Product'}" was viewed</div>
+                <div class="activity-item">Product "${escapeHtml(userProducts[0]?.name || 'Sample Product')}" was viewed</div>
                 <div class="activity-item">New product added to catalog</div>
                 <div class="activity-item">Product stock updated</div>
             `;
